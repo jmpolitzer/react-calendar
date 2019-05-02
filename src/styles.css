@@ -1,0 +1,51 @@
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.month {
+  width: 350px;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clickable:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.month-headers {
+  font-weight: bold;
+}
+
+.month-row {
+  display: flex;
+}
+
+.month-square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+}
+
+button {
+  height: 30px;
+}
+
+.year-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.year-row {
+  display: flex;
+}
