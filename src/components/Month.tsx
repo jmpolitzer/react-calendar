@@ -59,7 +59,11 @@ function Month(props: MonthComponentPropsInterface) {
             <div className="month-row" key={i}>
               {week.map((day: DayInterface, j: number) => {
                 return (
-                  <div className="month-square" key={j}>
+                  <div
+                    className="month-square"
+                    key={j}
+                    onClick={() => changeView("day", day.date)}
+                  >
                     {month.index === day.date.getMonth() && day.dayOfWeek}
                   </div>
                 );

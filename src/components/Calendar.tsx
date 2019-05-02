@@ -1,12 +1,13 @@
 import * as React from "react";
 import useCalendar from "../hooks/useCalendar";
-import { Month, Year } from "./index";
+import { Day, Month, Year } from "./index";
 
 const { useState } = React;
 
 function Calendar() {
   const [currentView, setCurrentView] = useState("month");
   const {
+    activeDate,
     setDate,
     getMonth,
     goToNextMonth,
@@ -25,14 +26,9 @@ function Calendar() {
 
   return (
     <div>
-      {currentView === "year" && (
-        <div className="year">
-          <Year
-            year={currentYear}
-            changeView={changeView}
-            goToNextYear={goToNextYear}
-            goToPreviousYear={goToPreviousYear}
-          />
+      {currentView === "day" && (
+        <div className="day">
+          <Day day={activeDate} changeView={changeView} />
         </div>
       )}
       {currentView === "month" && (
@@ -43,6 +39,16 @@ function Calendar() {
             isFocused
             goToNextMonth={goToNextMonth}
             goToPreviousMonth={goToPreviousMonth}
+          />
+        </div>
+      )}
+      {currentView === "year" && (
+        <div className="year">
+          <Year
+            year={currentYear}
+            changeView={changeView}
+            goToNextYear={goToNextYear}
+            goToPreviousYear={goToPreviousYear}
           />
         </div>
       )}

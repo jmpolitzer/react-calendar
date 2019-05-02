@@ -22,6 +22,11 @@ interface YearInterface {
   quarters: any[]; // should be Month interface
 }
 
+interface DayComponentPropsInterface {
+  day: Date;
+  changeView: (view: string) => void;
+}
+
 interface MonthComponentPropsInterface {
   month: MonthInterface;
   changeView?: (view: string, date?: Date) => void;
@@ -42,6 +47,7 @@ export {
   MonthHeaderInterface,
   DayInterface,
   YearInterface,
+  DayComponentPropsInterface,
   MonthComponentPropsInterface,
   YearComponentPropsInterface
 };
