@@ -2,15 +2,18 @@ import { useState } from "react";
 import {
   addMonths,
   addYears,
+  addDays,
+  addHours,
+  addMinutes,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
   format,
   startOfMonth,
   startOfWeek,
+  startOfDay,
   subMonths,
   subYears,
-  addDays,
   subDays
 } from "date-fns";
 
@@ -96,8 +99,14 @@ function useCalendar(startWeekOn?: any) {
     const dayOfWeek = format(activeDate, "d");
     const month = format(activeDate, "MMMM");
     const year = format(activeDate, "yyyy");
+    const dayStart = startOfDay(activeDate);
+    const day = [...Array(24)].map((_, i) => {
+      const hour = addHours(dayStart, i);
 
-    return { dayOfWeek, month, year, date: activeDate };
+      return [...Array(4)].map((_, j) => addMinutes(hour, j * 15));
+    });
+
+    return { dayOfWeek, month, year, date: activeDate, day };
   };
 
   const goToNextMonth = () => {

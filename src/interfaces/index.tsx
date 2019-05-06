@@ -17,6 +17,7 @@ interface DayInterface {
   month: string;
   year: string;
   date: Date;
+  day: any[]; // array of arrays of dates
 }
 
 interface YearInterface {
