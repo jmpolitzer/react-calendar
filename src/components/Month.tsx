@@ -9,7 +9,7 @@ function Month(props: MonthComponentPropsInterface) {
   const {
     month: currentMonth,
     changeView,
-    isFocused,
+    isMonthView,
     goToPreviousMonth,
     goToNextMonth
   } = props;
@@ -18,29 +18,29 @@ function Month(props: MonthComponentPropsInterface) {
   return (
     <div className="month">
       <div className="month-nav">
-        {isFocused && (
+        {isMonthView && (
           <div>
             <button onClick={goToPreviousMonth}>&laquo;</button>
           </div>
         )}
         <h1>
           <span
-            className={!isFocused ? "clickable" : ""}
+            className={!isMonthView ? "clickable" : ""}
             onClick={() =>
-              !isFocused
+              !isMonthView
                 ? changeView("month", new Date(parseInt(year), month.index, 1))
                 : null
             }
           >
             {month.stringName}{" "}
           </span>
-          {isFocused && (
+          {isMonthView && (
             <span className="clickable" onClick={() => changeView("year")}>
               {year}
             </span>
           )}
         </h1>
-        {isFocused && (
+        {isMonthView && (
           <div>
             <button onClick={goToNextMonth}>&raquo;</button>
           </div>
@@ -60,7 +60,7 @@ function Month(props: MonthComponentPropsInterface) {
               {week.map((day: DayInterface, j: number) => {
                 return (
                   <div
-                    className="month-square"
+                    className="month-square clickable"
                     key={j}
                     onClick={() => changeView("day", day.date)}
                   >

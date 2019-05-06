@@ -49,3 +49,18 @@ button {
 .year-row {
   display: flex;
 }
+
+.day-headers {
+  display: flex;
+}
+
+.day-headers div {
+  margin-right: 3px;
+}
+
+.day-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+}

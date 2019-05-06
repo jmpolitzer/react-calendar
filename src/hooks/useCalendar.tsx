@@ -9,13 +9,15 @@ import {
   startOfMonth,
   startOfWeek,
   subMonths,
-  subYears
+  subYears,
+  addDays,
+  subDays
 } from "date-fns";
 
 function useCalendar(startWeekOn?: any) {
   const [activeDate, setActiveDate] = useState(new Date());
 
-  const setDate = (date?: Date) => {
+  const setDate = (date: Date) => {
     setActiveDate(date);
   };
 
@@ -72,22 +74,6 @@ function useCalendar(startWeekOn?: any) {
     return { headers, year, month, weeks: formattedMonth };
   };
 
-  const goToNextMonth = () => {
-    setActiveDate(addMonths(startOfMonth(activeDate), 1));
-  };
-
-  const goToPreviousMonth = () => {
-    setActiveDate(subMonths(startOfMonth(activeDate), 1));
-  };
-
-  const goToNextYear = () => {
-    setActiveDate(addYears(startOfMonth(activeDate), 1));
-  };
-
-  const goToPreviousYear = () => {
-    setActiveDate(subYears(startOfMonth(activeDate), 1));
-  };
-
   const getYear = () => {
     const year = parseInt(format(activeDate, "yyyy"));
     const months = [...Array(12)].map((_, i) => getMonth(new Date(year, i, 1)));
@@ -106,6 +92,38 @@ function useCalendar(startWeekOn?: any) {
     return { year, quarters };
   };
 
+  const getDay = () => {
+    const dayOfWeek = format(activeDate, "d");
+    const month = format(activeDate, "MMMM");
+    const year = format(activeDate, "yyyy");
+
+    return { dayOfWeek, month, year, date: activeDate };
+  };
+
+  const goToNextMonth = () => {
+    setActiveDate(addMonths(startOfMonth(activeDate), 1));
+  };
+
+  const goToPreviousMonth = () => {
+    setActiveDate(subMonths(startOfMonth(activeDate), 1));
+  };
+
+  const goToNextYear = () => {
+    setActiveDate(addYears(startOfMonth(activeDate), 1));
+  };
+
+  const goToPreviousYear = () => {
+    setActiveDate(subYears(startOfMonth(activeDate), 1));
+  };
+
+  const goToNextDay = () => {
+    setActiveDate(addDays(activeDate, 1));
+  };
+
+  const goToPreviousDay = () => {
+    setActiveDate(subDays(activeDate, 1));
+  };
+
   return {
     activeDate,
     setDate,
@@ -114,7 +132,10 @@ function useCalendar(startWeekOn?: any) {
     goToPreviousMonth,
     getYear,
     goToNextYear,
-    goToPreviousYear
+    goToPreviousYear,
+    getDay,
+    goToNextDay,
+    goToPreviousDay
   };
 }
 

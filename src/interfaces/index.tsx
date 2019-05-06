@@ -13,7 +13,9 @@ interface MonthHeaderInterface {
 }
 
 interface DayInterface {
-  dayOfWeek: number;
+  dayOfWeek: string;
+  month: string;
+  year: string;
   date: Date;
 }
 
@@ -23,14 +25,16 @@ interface YearInterface {
 }
 
 interface DayComponentPropsInterface {
-  day: Date;
+  day: DayInterface;
   changeView: (view: string) => void;
+  goToNextDay: () => void;
+  goToPreviousDay: () => void;
 }
 
 interface MonthComponentPropsInterface {
   month: MonthInterface;
   changeView?: (view: string, date?: Date) => void;
-  isFocused?: boolean;
+  isMonthView?: boolean;
   goToPreviousMonth?: () => void;
   goToNextMonth?: () => void;
 }

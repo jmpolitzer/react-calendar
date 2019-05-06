@@ -7,17 +7,20 @@ const { useState } = React;
 function Calendar() {
   const [currentView, setCurrentView] = useState("month");
   const {
-    activeDate,
     setDate,
     getMonth,
     goToNextMonth,
     goToPreviousMonth,
     getYear,
     goToNextYear,
-    goToPreviousYear
+    goToPreviousYear,
+    getDay,
+    goToNextDay,
+    goToPreviousDay
   } = useCalendar();
   const currentMonth = getMonth(); // useCallback
   const currentYear = getYear(); // useCallback
+  const currentDay = getDay(); // useCallback
 
   const changeView = (view: string, date?: Date) => {
     date && setDate(date);
@@ -28,7 +31,12 @@ function Calendar() {
     <div>
       {currentView === "day" && (
         <div className="day">
-          <Day day={activeDate} changeView={changeView} />
+          <Day
+            day={currentDay}
+            changeView={changeView}
+            goToNextDay={goToNextDay}
+            goToPreviousDay={goToPreviousDay}
+          />
         </div>
       )}
       {currentView === "month" && (
@@ -36,7 +44,7 @@ function Calendar() {
           <Month
             month={currentMonth}
             changeView={changeView}
-            isFocused
+            isMonthView
             goToNextMonth={goToNextMonth}
             goToPreviousMonth={goToPreviousMonth}
           />
