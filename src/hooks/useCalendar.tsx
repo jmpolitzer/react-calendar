@@ -3,6 +3,7 @@ import {
   addMonths,
   addYears,
   addDays,
+  addWeeks,
   addHours,
   addMinutes,
   eachDayOfInterval,
@@ -14,7 +15,8 @@ import {
   startOfDay,
   subMonths,
   subYears,
-  subDays
+  subDays,
+  subWeeks
 } from "date-fns";
 
 function useCalendar(startWeekOn?: any) {
@@ -95,18 +97,29 @@ function useCalendar(startWeekOn?: any) {
     return { year, quarters };
   };
 
-  const getDay = () => {
-    const dayOfWeek = format(activeDate, "d");
-    const month = format(activeDate, "MMMM");
-    const year = format(activeDate, "yyyy");
-    const dayStart = startOfDay(activeDate);
+  const getDay = (date?: Date) => {
+    const dateToUse = date || activeDate;
+    const dayOfWeek = format(dateToUse, "d");
+    const month = format(dateToUse, "MMMM");
+    const year = format(dateToUse, "yyyy");
+    const dayStart = startOfDay(dateToUse);
     const day = [...Array(24)].map((_, i) => {
       const hour = addHours(dayStart, i);
 
       return [...Array(4)].map((_, j) => addMinutes(hour, j * 15));
     });
 
-    return { dayOfWeek, month, year, date: activeDate, day };
+    return { dayOfWeek, month, year, date: dateToUse, day };
+  };
+
+  const getWeek = () => {
+    const weekStart = startOfWeek(activeDate, {
+      weekStartsOn: startWeekOn || 0
+    });
+    const week = [...Array(7)].map((_, i) => getDay(addDays(weekStart, i)));
+    const headers = getDayHeaders(week);
+
+    return { headers, week };
   };
 
   const goToNextMonth = () => {
@@ -133,6 +146,14 @@ function useCalendar(startWeekOn?: any) {
     setActiveDate(subDays(activeDate, 1));
   };
 
+  const goToNextWeek = () => {
+    setActiveDate(addWeeks(activeDate, 1));
+  };
+
+  const goToPreviousWeek = () => {
+    setActiveDate(subWeeks(activeDate, 1));
+  };
+
   return {
     activeDate,
     setDate,
@@ -144,7 +165,10 @@ function useCalendar(startWeekOn?: any) {
     goToPreviousYear,
     getDay,
     goToNextDay,
-    goToPreviousDay
+    goToPreviousDay,
+    getWeek,
+    goToNextWeek,
+    goToPreviousWeek
   };
 }
 

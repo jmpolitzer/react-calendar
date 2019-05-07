@@ -20,6 +20,11 @@ interface DayInterface {
   day: any[]; // array of arrays of dates
 }
 
+interface WeekInterface {
+  week: DayInterface[];
+  headers: MonthHeaderInterface;
+}
+
 interface YearInterface {
   year: number;
   quarters: any[]; // should be Month interface
@@ -28,9 +33,17 @@ interface YearInterface {
 interface DayComponentPropsInterface {
   day: DayInterface;
   changeView: (view: string) => void;
-  goToNextDay: () => void;
-  goToPreviousDay: () => void;
+  isDayView?: boolean;
+  goToNextDay?: () => void;
+  goToPreviousDay?: () => void;
   isMilitary?: boolean;
+}
+
+interface WeekComponentPropsInterface {
+  week: WeekInterface;
+  changeView: (view: string) => void;
+  goToNextWeek: () => void;
+  goToPreviousWeek: () => void;
 }
 
 interface MonthComponentPropsInterface {
@@ -54,6 +67,7 @@ export {
   DayInterface,
   YearInterface,
   DayComponentPropsInterface,
+  WeekComponentPropsInterface,
   MonthComponentPropsInterface,
   YearComponentPropsInterface
 };

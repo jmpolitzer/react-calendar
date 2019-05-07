@@ -93,3 +93,22 @@ button {
   height: 1px;
   background: black;
 }
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.week {
+  display: flex;
+}
+
+.weekday {
+  margin-right: 10px;
+}
+
+.weekday-header {
+  display: flex;
+  justify-content: space-between;
+}

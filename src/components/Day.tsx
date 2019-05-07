@@ -7,6 +7,7 @@ function Day(props: DayComponentPropsInterface) {
   const {
     day,
     changeView,
+    isDayView,
     goToPreviousDay,
     goToNextDay,
     isMilitary = false
@@ -29,19 +30,22 @@ function Day(props: DayComponentPropsInterface) {
 
   return (
     <div>
-      <div className="day-nav">
-        <button onClick={goToPreviousDay}>&laquo;</button>
-        <div className={"day-headers"}>
-          <div onClick={() => changeView("month")} className={"clickable"}>
-            {month}
+      {isDayView && <button onClick={() => changeView("week")}>Week</button>}
+      {isDayView && (
+        <div className="day-nav">
+          <button onClick={goToPreviousDay}>&laquo;</button>
+          <div className={"day-headers"}>
+            <div onClick={() => changeView("month")} className={"clickable"}>
+              {month}
+            </div>
+            <div>{dayOfWeek},</div>
+            <div onClick={() => changeView("year")} className={"clickable"}>
+              {year}
+            </div>
           </div>
-          <div>{dayOfWeek},</div>
-          <div onClick={() => changeView("year")} className={"clickable"}>
-            {year}
-          </div>
+          <button onClick={goToNextDay}>&raquo;</button>
         </div>
-        <button onClick={goToNextDay}>&raquo;</button>
-      </div>
+      )}
       <div>
         {currentDay.map((hour, i) => {
           return (

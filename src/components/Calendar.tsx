@@ -1,6 +1,6 @@
 import * as React from "react";
 import useCalendar from "../hooks/useCalendar";
-import { Day, Month, Year } from "./index";
+import { Day, Week, Month, Year } from "./index";
 
 const { useState } = React;
 
@@ -16,11 +16,15 @@ function Calendar() {
     goToPreviousYear,
     getDay,
     goToNextDay,
-    goToPreviousDay
+    goToPreviousDay,
+    getWeek,
+    goToNextWeek,
+    goToPreviousWeek
   } = useCalendar();
   const currentMonth = getMonth(); // useCallback
   const currentYear = getYear(); // useCallback
   const currentDay = getDay(); // useCallback
+  const currentWeek = getWeek(); // useCallback
 
   const changeView = (view: string, date?: Date) => {
     date && setDate(date);
@@ -34,8 +38,19 @@ function Calendar() {
           <Day
             day={currentDay}
             changeView={changeView}
+            isDayView
             goToNextDay={goToNextDay}
             goToPreviousDay={goToPreviousDay}
+          />
+        </div>
+      )}
+      {currentView === "week" && (
+        <div className="week">
+          <Week
+            week={currentWeek}
+            changeView={changeView}
+            goToNextWeek={goToNextWeek}
+            goToPreviousWeek={goToPreviousWeek}
           />
         </div>
       )}
