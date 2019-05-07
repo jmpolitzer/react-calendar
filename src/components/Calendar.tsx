@@ -5,7 +5,7 @@ import { Day, Month, Year } from "./index";
 const { useState } = React;
 
 function Calendar() {
-  const [currentView, setCurrentView] = useState("month");
+  const [currentView, setCurrentView] = useState("day");
   const {
     setDate,
     getMonth,

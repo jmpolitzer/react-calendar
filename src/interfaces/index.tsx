@@ -30,6 +30,7 @@ interface DayComponentPropsInterface {
   changeView: (view: string) => void;
   goToNextDay: () => void;
   goToPreviousDay: () => void;
+  isMilitary?: boolean;
 }
 
 interface MonthComponentPropsInterface {

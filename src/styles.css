@@ -62,4 +62,34 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.quarter .hour,
+.minutes {
+  padding: 10px 0px;
+}
+
+.hour {
+  display: flex;
+  align-items: flex-end;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.evening {
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 3px;
+  margin-left: 2px;
+}
+
+.minutes {
+  margin-bottom: 10px;
+}
+
+.quarter-line {
+  width: 200px;
+  height: 1px;
+  background: black;
 }

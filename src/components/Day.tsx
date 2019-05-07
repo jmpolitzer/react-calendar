@@ -1,9 +1,31 @@
 import * as React from "react";
 import { DayComponentPropsInterface } from "../interfaces";
 
+const { Fragment } = React;
+
 function Day(props: DayComponentPropsInterface) {
-  const { day, changeView, goToPreviousDay, goToNextDay } = props;
+  const {
+    day,
+    changeView,
+    goToPreviousDay,
+    goToNextDay,
+    isMilitary = false
+  } = props;
   const { dayOfWeek, month, year, day: currentDay } = day;
+
+  const formatTime = (date: Date, index: number) => {
+    const militaryHour = date.getHours();
+    const minutes = date.getMinutes();
+    const standardHour =
+      militaryHour === 0
+        ? 12
+        : militaryHour < 13
+        ? militaryHour
+        : militaryHour - 12;
+    const hour = isMilitary ? militaryHour : standardHour;
+
+    return index % 4 === 0 ? hour : minutes;
+  };
 
   return (
     <div>
@@ -23,9 +45,21 @@ function Day(props: DayComponentPropsInterface) {
       <div>
         {currentDay.map((hour, i) => {
           return (
-            <div key={i}>
+            <div key={i} className="quarter">
               {hour.map((quarter: Date, j: number) => {
-                return <div key={j}>{quarter.toString()}</div>;
+                const isHour = j % 4 === 0;
+                const showEvening =
+                  isHour && !isMilitary && quarter.getHours() > 12;
+
+                return (
+                  <Fragment key={j}>
+                    <div className="quarter-line" />
+                    <div className={`${isHour ? "hour" : "minutes"}`}>
+                      <div>{formatTime(quarter, j)}</div>
+                      {showEvening && <div className="evening">p</div>}
+                    </div>
+                  </Fragment>
+                );
               })}
             </div>
           );
