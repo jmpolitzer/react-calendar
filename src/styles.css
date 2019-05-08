@@ -100,6 +100,10 @@ button {
   justify-content: space-between;
 }
 
+.week-nav-header {
+  display: flex;
+}
+
 .week {
   display: flex;
 }
@@ -111,4 +115,8 @@ button {
 .weekday-header {
   display: flex;
   justify-content: space-between;
+}
+
+.weekday-range {
+  margin: 0px 5px;
 }
