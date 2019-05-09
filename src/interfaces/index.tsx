@@ -14,6 +14,7 @@ interface MonthHeaderInterface {
 
 interface DayInterface {
   dayOfWeek: string;
+  dayString: string;
   month: string;
   year: string;
   date: Date;
@@ -41,7 +42,7 @@ interface DayComponentPropsInterface {
 
 interface WeekComponentPropsInterface {
   week: WeekInterface;
-  changeView: (view: string) => void;
+  changeView: (view: string, date?: Date) => void;
   goToNextWeek: () => void;
   goToPreviousWeek: () => void;
 }

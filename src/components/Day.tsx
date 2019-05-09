@@ -12,7 +12,7 @@ function Day(props: DayComponentPropsInterface) {
     goToNextDay,
     isMilitary = false
   } = props;
-  const { dayOfWeek, month, year, day: currentDay } = day;
+  const { dayOfWeek, dayString, month, year, day: currentDay } = day;
 
   const formatTime = (date: Date, index: number) => {
     const militaryHour = date.getHours();
@@ -35,6 +35,7 @@ function Day(props: DayComponentPropsInterface) {
         <div className="day-nav">
           <button onClick={goToPreviousDay}>&laquo;</button>
           <div className={"day-headers"}>
+            <div>{dayString}</div>
             <div onClick={() => changeView("month")} className={"clickable"}>
               {month}
             </div>

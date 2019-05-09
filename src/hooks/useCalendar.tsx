@@ -39,13 +39,13 @@ function useCalendar(startWeekOn?: any) {
     return [...lastMonthDays, ...month, ...nextMonthDays];
   };
 
-  const getDayHeaders = (month: any[]) => {
-    return month.reduce((acc, m) => {
+  const getDayHeaders = (week: any[]) => {
+    return week.reduce((acc, d) => {
       acc.push({
-        single: format(m.date, "EEEEE"),
-        short: format(m.date, "EEEEEE"),
-        medium: format(m.date, "E"),
-        long: format(m.date, "EEEE")
+        single: format(d.date, "EEEEE"),
+        short: format(d.date, "EEEEEE"),
+        medium: format(d.date, "E"),
+        long: format(d.date, "EEEE")
       });
 
       return acc;
@@ -99,6 +99,7 @@ function useCalendar(startWeekOn?: any) {
 
   const getDay = (date?: Date) => {
     const dateToUse = date || activeDate;
+    const dayString = format(dateToUse, "EEEE");
     const dayOfWeek = format(dateToUse, "d");
     const month = format(dateToUse, "MMMM");
     const year = format(dateToUse, "yyyy");
@@ -109,7 +110,7 @@ function useCalendar(startWeekOn?: any) {
       return [...Array(4)].map((_, j) => addMinutes(hour, j * 15));
     });
 
-    return { dayOfWeek, month, year, date: dateToUse, day };
+    return { dayOfWeek, dayString, month, year, date: dateToUse, day };
   };
 
   const getWeek = () => {

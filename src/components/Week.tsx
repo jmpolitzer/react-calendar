@@ -27,13 +27,23 @@ function Week(props: WeekComponentPropsInterface) {
       </div>
       <div className="week">
         {currentWeek.map((day, i) => {
-          const { dayOfWeek } = day;
+          const { dayOfWeek, date } = day;
 
           return (
             <div key={i} className="weekday">
               <div className="weekday-header">
-                <div>{headers[i].long}</div>
-                <div>{dayOfWeek}</div>
+                <div
+                  className="clickable"
+                  onClick={() => changeView("day", date)}
+                >
+                  {headers[i].long}
+                </div>
+                <div
+                  className="clickable"
+                  onClick={() => changeView("day", date)}
+                >
+                  {dayOfWeek}
+                </div>
               </div>
               <Day day={day} changeView={changeView} />
             </div>
