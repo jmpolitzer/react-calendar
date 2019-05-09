@@ -16,37 +16,37 @@ function Month(props: MonthComponentPropsInterface) {
   } = props;
   const { headers, weeks, month, year } = currentMonth;
 
+  const getMonthNavHeader = () => {
+    return (
+      <h1>
+        <span>{month.stringName} </span>
+        <span className="clickable" onClick={() => changeView("year")}>
+          {year}
+        </span>
+      </h1>
+    );
+  };
+
   return (
     <div className="month">
-      <div className="month-nav">
-        {isMonthView && (
-          <div>
-            <button onClick={goToPreviousMonth}>&laquo;</button>
-          </div>
-        )}
-        <h1>
-          <span
-            className={!isMonthView ? "clickable" : ""}
+      {isMonthView ? (
+        <Navigation
+          previous={goToPreviousMonth}
+          next={goToNextMonth}
+          title={getMonthNavHeader()}
+        />
+      ) : (
+        <div>
+          <h1
+            className="clickable"
             onClick={() =>
-              !isMonthView
-                ? changeView("month", new Date(parseInt(year), month.index, 1))
-                : null
+              changeView("month", new Date(parseInt(year), month.index, 1))
             }
           >
-            {month.stringName}{" "}
-          </span>
-          {isMonthView && (
-            <span className="clickable" onClick={() => changeView("year")}>
-              {year}
-            </span>
-          )}
-        </h1>
-        {isMonthView && (
-          <div>
-            <button onClick={goToNextMonth}>&raquo;</button>
-          </div>
-        )}
-      </div>
+            {month.stringName}
+          </h1>
+        </div>
+      )}
       <div className="month-row month-headers">
         {headers.map((header: MonthHeaderInterface, i: number) => (
           <div className="month-square" key={i}>

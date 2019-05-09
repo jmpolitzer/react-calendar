@@ -31,13 +31,13 @@ function Day(props: DayComponentPropsInterface) {
 
   const getDayNavTitle = () => {
     return (
-      <div className={"day-headers"}>
+      <div className="day-headers">
         <div>{dayString}</div>
-        <div onClick={() => changeView("month")} className={"clickable"}>
+        <div onClick={() => changeView("month")} className="clickable">
           {month}
         </div>
         <div>{dayOfWeek},</div>
-        <div onClick={() => changeView("year")} className={"clickable"}>
+        <div onClick={() => changeView("year")} className="clickable">
           {year}
         </div>
       </div>
