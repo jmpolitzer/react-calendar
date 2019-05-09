@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Day } from "./index";
+import { Navigation, Day } from "./index";
 import { WeekComponentPropsInterface } from "../interfaces";
 
 function Week(props: WeekComponentPropsInterface) {
@@ -8,23 +8,29 @@ function Week(props: WeekComponentPropsInterface) {
   const firstDay = currentWeek[0];
   const lastDay = currentWeek[currentWeek.length - 1];
 
+  const getWeekNavTitle = () => {
+    return (
+      <div className="week-nav-header">
+        <div className="clickable" onClick={() => changeView("month")}>
+          {firstDay.month}
+        </div>
+        <div className="weekday-range">
+          {`${firstDay.dayOfWeek} - ${lastDay.dayOfWeek},`}
+        </div>
+        <div className="clickable" onClick={() => changeView("year")}>
+          {lastDay.year}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
-      <div className="week-nav">
-        <button onClick={goToPreviousWeek}>&laquo;</button>
-        <div className="week-nav-header">
-          <div className="clickable" onClick={() => changeView("month")}>
-            {firstDay.month}
-          </div>
-          <div className="weekday-range">
-            {`${firstDay.dayOfWeek} - ${lastDay.dayOfWeek},`}
-          </div>
-          <div className="clickable" onClick={() => changeView("year")}>
-            {lastDay.year}
-          </div>
-        </div>
-        <button onClick={goToNextWeek}>&raquo;</button>
-      </div>
+      <Navigation
+        previous={goToPreviousWeek}
+        next={goToNextWeek}
+        title={getWeekNavTitle()}
+      />
       <div className="week">
         {currentWeek.map((day, i) => {
           const { dayOfWeek, date } = day;

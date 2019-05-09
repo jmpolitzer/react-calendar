@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Navigation } from "./index";
 import { DayComponentPropsInterface } from "../interfaces";
 
 const { Fragment } = React;
@@ -28,24 +29,30 @@ function Day(props: DayComponentPropsInterface) {
     return index % 4 === 0 ? hour : minutes;
   };
 
+  const getDayNavTitle = () => {
+    return (
+      <div className={"day-headers"}>
+        <div>{dayString}</div>
+        <div onClick={() => changeView("month")} className={"clickable"}>
+          {month}
+        </div>
+        <div>{dayOfWeek},</div>
+        <div onClick={() => changeView("year")} className={"clickable"}>
+          {year}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
       {isDayView && <button onClick={() => changeView("week")}>Week</button>}
       {isDayView && (
-        <div className="day-nav">
-          <button onClick={goToPreviousDay}>&laquo;</button>
-          <div className={"day-headers"}>
-            <div>{dayString}</div>
-            <div onClick={() => changeView("month")} className={"clickable"}>
-              {month}
-            </div>
-            <div>{dayOfWeek},</div>
-            <div onClick={() => changeView("year")} className={"clickable"}>
-              {year}
-            </div>
-          </div>
-          <button onClick={goToNextDay}>&raquo;</button>
-        </div>
+        <Navigation
+          previous={goToPreviousDay}
+          next={goToNextDay}
+          title={getDayNavTitle()}
+        />
       )}
       <div>
         {currentDay.map((hour, i) => {

@@ -31,6 +31,12 @@ interface YearInterface {
   quarters: any[]; // should be Month interface
 }
 
+interface NavigationComponentPropsInterface {
+  previous: () => void;
+  next: () => void;
+  title: any;
+}
+
 interface DayComponentPropsInterface {
   day: DayInterface;
   changeView: (view: string) => void;
@@ -70,5 +76,6 @@ export {
   DayComponentPropsInterface,
   WeekComponentPropsInterface,
   MonthComponentPropsInterface,
-  YearComponentPropsInterface
+  YearComponentPropsInterface,
+  NavigationComponentPropsInterface
 };

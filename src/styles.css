@@ -9,12 +9,6 @@
   width: 350px;
 }
 
-.month-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .clickable:hover {
   cursor: pointer;
   color: red;
@@ -40,12 +34,6 @@ button {
   height: 30px;
 }
 
-.year-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .year-row {
   display: flex;
 }
@@ -56,13 +44,6 @@ button {
 
 .day-headers div {
   margin-right: 3px;
-}
-
-.day-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
 }
 
 .quarter .hour,
@@ -94,12 +75,6 @@ button {
   background: black;
 }
 
-.week-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .week-nav-header {
   display: flex;
 }
@@ -119,4 +94,35 @@ button {
 
 .weekday-range {
   margin: 0px 5px;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.year-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
