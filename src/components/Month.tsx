@@ -59,9 +59,14 @@ function Month(props: MonthComponentPropsInterface) {
           return (
             <div className="month-row" key={i}>
               {week.map((day: DayInterface, j: number) => {
+                const isToday =
+                  day.date.toDateString() === new Date().toDateString();
+
                 return (
                   <div
-                    className="month-square clickable"
+                    className={`month-square clickable ${
+                      isToday ? "current" : ""
+                    }`}
                     key={j}
                     onClick={() => changeView("day", day.date)}
                   >
