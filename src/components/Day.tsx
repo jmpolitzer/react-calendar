@@ -1,10 +1,16 @@
 import * as React from "react";
 import { Navigation } from "./index";
+import useEvent from "../hooks/useEvent";
 import { DayComponentPropsInterface } from "../interfaces";
 
-const { Fragment } = React;
-
 function Day(props: DayComponentPropsInterface) {
+  const {
+    createEvent,
+    eventStart,
+    eventEnd,
+    currentIntervalLocation
+  } = useEvent();
+
   const {
     day,
     changeView,
@@ -66,6 +72,19 @@ function Day(props: DayComponentPropsInterface) {
     ) : null;
   };
 
+  const getEventStatus = (quarter: Date) => {
+    const [startHour, startMinutes] = eventStart.split(":");
+    const [endHour, endMinutes] = eventEnd.split(":");
+    const [intervalHour, intervalMinutes] = currentIntervalLocation.split(":");
+    const quarterHour = quarter.getHours().toString();
+    const quarterMinutes =
+      quarter.getMinutes() === 0 ? "00" : quarter.getMinutes().toString();
+    const hours = [startHour, endHour, intervalHour];
+    const minutes = [startMinutes, endMinutes, intervalMinutes];
+
+    return hours.includes(quarterHour) && minutes.includes(quarterMinutes);
+  };
+
   return (
     <div>
       {isDayView && <button onClick={() => changeView("week")}>Week</button>}
@@ -76,25 +95,29 @@ function Day(props: DayComponentPropsInterface) {
           title={getDayNavTitle()}
         />
       )}
-      <div>
+      <div onMouseDown={(e: any) => createEvent(e)}>
         {currentDay.map((hour, i) => {
           return (
             <div key={i} className="quarter">
               {hour.map((quarter: Date, j: number) => {
                 const isHour = j % 4 === 0;
-                const showEvening = getEveningStatus(quarter, isHour);
+                const isEvening = getEveningStatus(quarter, isHour);
+                const isEvent = getEventStatus(quarter);
 
                 return (
-                  <Fragment key={j}>
+                  <div key={j} className={isEvent ? "event" : ""}>
                     <div className="quarter-line" />
-                    <div className={`${isHour ? "hour" : "minutes"}`}>
+                    <div
+                      className={`${isHour ? "hour" : "minutes"}`}
+                      data-date={quarter}
+                    >
                       <div className="time-label">
                         <div>{formatTime(quarter, j)}</div>
-                        {showEvening && <div className="evening">p</div>}
+                        {isEvening && <div className="evening">p</div>}
                       </div>
                       {getCurrentTime(quarter)}
                     </div>
-                  </Fragment>
+                  </div>
                 );
               })}
             </div>
