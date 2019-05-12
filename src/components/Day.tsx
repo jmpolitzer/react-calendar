@@ -72,7 +72,7 @@ function Day(props: DayComponentPropsInterface) {
     const quarterMinutes =
       quarter.getMinutes() === 0 ? "00" : quarter.getMinutes();
 
-    return currentEvent.includes(`${quarterHour}:${quarterMinutes}`);
+    return currentEvent.includes(`${quarterHour}${quarterMinutes}`);
   };
 
   return (

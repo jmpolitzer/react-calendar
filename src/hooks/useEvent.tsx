@@ -13,7 +13,7 @@ function useEvent() {
       const hour = date.getHours();
       const minutes = date.getMinutes() === 0 ? "00" : date.getMinutes();
 
-      return `${hour}:${minutes}`;
+      return `${hour}${minutes}`;
     }
   };
 
@@ -29,10 +29,23 @@ function useEvent() {
 
   const handleMouseMove = (e: MouseEvent) => {
     const date = getDateAttr(e);
+
     date &&
-      setCurrentEvent(quarters =>
-        quarters.filter(quarter => quarter !== date).concat(date)
-      );
+      setCurrentEvent(quarters => {
+        const lastQuarter = parseInt(quarters[quarters.length - 1], 10);
+        const secondToLastQuarter = parseInt(quarters[quarters.length - 2], 10);
+        const isGoingReverse =
+          (lastQuarter > secondToLastQuarter &&
+            parseInt(date, 10) < lastQuarter) ||
+          (lastQuarter < secondToLastQuarter &&
+            parseInt(date, 10) > lastQuarter);
+
+        return quarters.includes(date)
+          ? isGoingReverse
+            ? quarters.filter(quarter => parseInt(quarter, 10) !== lastQuarter)
+            : quarters
+          : quarters.filter(quarter => quarter !== date).concat(date);
+      });
 
     e.preventDefault();
   };

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { Calendar } from "./components";
+import { Calendar } from "./components/index";
 
 import "./styles.css";
 
