@@ -4,12 +4,7 @@ import useEvent from "../hooks/useEvent";
 import { DayComponentPropsInterface } from "../interfaces";
 
 function Day(props: DayComponentPropsInterface) {
-  const {
-    createEvent,
-    eventStart,
-    eventEnd,
-    currentIntervalLocation
-  } = useEvent();
+  const { createEvent, currentEvent } = useEvent();
 
   const {
     day,
@@ -73,16 +68,11 @@ function Day(props: DayComponentPropsInterface) {
   };
 
   const getEventStatus = (quarter: Date) => {
-    const [startHour, startMinutes] = eventStart.split(":");
-    const [endHour, endMinutes] = eventEnd.split(":");
-    const [intervalHour, intervalMinutes] = currentIntervalLocation.split(":");
-    const quarterHour = quarter.getHours().toString();
+    const quarterHour = quarter.getHours();
     const quarterMinutes =
-      quarter.getMinutes() === 0 ? "00" : quarter.getMinutes().toString();
-    const hours = [startHour, endHour, intervalHour];
-    const minutes = [startMinutes, endMinutes, intervalMinutes];
+      quarter.getMinutes() === 0 ? "00" : quarter.getMinutes();
 
-    return hours.includes(quarterHour) && minutes.includes(quarterMinutes);
+    return currentEvent.includes(`${quarterHour}:${quarterMinutes}`);
   };
 
   return (
