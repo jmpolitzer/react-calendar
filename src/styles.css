@@ -111,6 +111,7 @@ button {
   justify-content: space-between;
 }
 
-.event {
+.event-interval {
   background-color: teal;
+  height: 45px;
 }

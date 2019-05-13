@@ -1,18 +1,17 @@
 import * as React from "react";
-import { Navigation } from "./index";
-import useEvent from "../hooks/useEvent";
+import { Navigation, CalendarEvent } from "./index";
 import { DayComponentPropsInterface } from "../interfaces";
 
 function Day(props: DayComponentPropsInterface) {
-  const { createEvent, currentEvent } = useEvent();
-
   const {
     day,
     changeView,
     isDayView,
     goToPreviousDay,
     goToNextDay,
-    isMilitary = false
+    isMilitary = false,
+    currentEvent,
+    createEvent
   } = props;
   const { dayOfWeek, dayString, month, year, day: currentDay, date } = day;
 
@@ -67,12 +66,12 @@ function Day(props: DayComponentPropsInterface) {
     ) : null;
   };
 
-  const getEventStatus = (quarter: Date) => {
+  const formatQuarter = (quarter: Date) => {
     const quarterHour = quarter.getHours();
     const quarterMinutes =
       quarter.getMinutes() === 0 ? "00" : quarter.getMinutes();
 
-    return currentEvent.includes(`${quarterHour}${quarterMinutes}`);
+    return `${quarterHour}${quarterMinutes}`;
   };
 
   return (
@@ -86,16 +85,23 @@ function Day(props: DayComponentPropsInterface) {
         />
       )}
       <div onMouseDown={(e: any) => createEvent(e)}>
-        {currentDay.map((hour, i) => {
+        {currentDay.map((hour: Date[], i: number) => {
           return (
             <div key={i} className="quarter">
               {hour.map((quarter: Date, j: number) => {
                 const isHour = j % 4 === 0;
                 const isEvening = getEveningStatus(quarter, isHour);
-                const isEvent = getEventStatus(quarter);
 
                 return (
-                  <div key={j} className={isEvent ? "event" : ""}>
+                  <div key={j}>
+                    {currentEvent[0] === formatQuarter(quarter) && (
+                      <CalendarEvent
+                        currentEvent={currentEvent}
+                        quarter={quarter}
+                        year={year}
+                        dayOfWeek={dayOfWeek}
+                      />
+                    )}
                     <div className="quarter-line" />
                     <div
                       className={`${isHour ? "hour" : "minutes"}`}

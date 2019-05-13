@@ -16,9 +16,13 @@ import {
   subMonths,
   subYears,
   subDays,
-  subWeeks
+  subWeeks,
+  isSameDay,
+  isSameWeek,
+  isSameMonth,
+  isSameYear
 } from "date-fns";
-
+import { EventInterface } from "../interfaces";
 function useCalendar(startWeekOn?: any) {
   const [activeDate, setActiveDate] = useState(new Date());
 
@@ -155,6 +159,24 @@ function useCalendar(startWeekOn?: any) {
     setActiveDate(subWeeks(activeDate, 1));
   };
 
+  const getEventsForDay = (events: EventInterface[]) => {
+    return events.map((event: EventInterface) => isSameDay(event, activeDate));
+  };
+
+  const getEventsForWeek = (events: EventInterface[]) => {
+    return events.map((event: EventInterface) => isSameWeek(event, activeDate));
+  };
+
+  const getEventsForMonth = (events: EventInterface[]) => {
+    return events.map((event: EventInterface) =>
+      isSameMonth(event, activeDate)
+    );
+  };
+
+  const getEventsForYear = (events: EventInterface[]) => {
+    return events.map((event: EventInterface) => isSameYear(event, activeDate));
+  };
+
   return {
     activeDate,
     setDate,
@@ -169,7 +191,11 @@ function useCalendar(startWeekOn?: any) {
     goToPreviousDay,
     getWeek,
     goToNextWeek,
-    goToPreviousWeek
+    goToPreviousWeek,
+    getEventsForDay,
+    getEventsForWeek,
+    getEventsForMonth,
+    getEventsForYear
   };
 }
 

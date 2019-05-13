@@ -31,6 +31,16 @@ interface YearInterface {
   quarters: any[]; // should be Month interface
 }
 
+interface EventInterface {
+  start: Date;
+  end: Date;
+  description?: string;
+}
+
+interface CalendarComponentPropsInterface {
+  events: EventInterface[];
+}
+
 interface NavigationComponentPropsInterface {
   previous: () => void;
   next: () => void;
@@ -44,6 +54,9 @@ interface DayComponentPropsInterface {
   goToNextDay?: () => void;
   goToPreviousDay?: () => void;
   isMilitary?: boolean;
+  currentEvent?: string[];
+  createEvent?: (e: MouseEvent) => void;
+  events: EventInterface[];
 }
 
 interface WeekComponentPropsInterface {
@@ -51,6 +64,7 @@ interface WeekComponentPropsInterface {
   changeView: (view: string, date?: Date) => void;
   goToNextWeek: () => void;
   goToPreviousWeek: () => void;
+  events: EventInterface[];
 }
 
 interface MonthComponentPropsInterface {
@@ -59,6 +73,7 @@ interface MonthComponentPropsInterface {
   isMonthView?: boolean;
   goToPreviousMonth?: () => void;
   goToNextMonth?: () => void;
+  events: EventInterface[];
 }
 
 interface YearComponentPropsInterface {
@@ -66,6 +81,14 @@ interface YearComponentPropsInterface {
   changeView: (view: string) => void;
   goToNextYear: () => void;
   goToPreviousYear: () => void;
+  events: EventInterface[];
+}
+
+interface CalendarEventComponentPropsInterface {
+  currentEvent: string[];
+  quarter: Date;
+  year: string;
+  dayOfWeek: string;
 }
 
 export {
@@ -73,9 +96,11 @@ export {
   MonthHeaderInterface,
   DayInterface,
   YearInterface,
+  CalendarComponentPropsInterface,
   DayComponentPropsInterface,
   WeekComponentPropsInterface,
   MonthComponentPropsInterface,
   YearComponentPropsInterface,
-  NavigationComponentPropsInterface
+  NavigationComponentPropsInterface,
+  CalendarEventComponentPropsInterface
 };
