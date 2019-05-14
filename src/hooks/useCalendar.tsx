@@ -160,21 +160,35 @@ function useCalendar(startWeekOn?: any) {
   };
 
   const getEventsForDay = (events: EventInterface[]) => {
-    return events.map((event: EventInterface) => isSameDay(event, activeDate));
+    return events.reduce((acc: EventInterface[], event: EventInterface) => {
+      isSameDay(event.start, activeDate) && acc.push(event);
+
+      return acc;
+    }, []);
   };
 
   const getEventsForWeek = (events: EventInterface[]) => {
-    return events.map((event: EventInterface) => isSameWeek(event, activeDate));
+    return events.reduce((acc: EventInterface[], event: EventInterface) => {
+      isSameWeek(event.start, activeDate) && acc.push(event);
+
+      return acc;
+    }, []);
   };
 
   const getEventsForMonth = (events: EventInterface[]) => {
-    return events.map((event: EventInterface) =>
-      isSameMonth(event, activeDate)
-    );
+    return events.reduce((acc: EventInterface[], event: EventInterface) => {
+      isSameMonth(event.start, activeDate) && acc.push(event);
+
+      return acc;
+    }, []);
   };
 
   const getEventsForYear = (events: EventInterface[]) => {
-    return events.map((event: EventInterface) => isSameYear(event, activeDate));
+    return events.reduce((acc: EventInterface[], event: EventInterface) => {
+      isSameYear(event.start, activeDate) && acc.push(event);
+
+      return acc;
+    }, []);
   };
 
   return {

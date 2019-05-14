@@ -35,6 +35,7 @@ interface EventInterface {
   start: Date;
   end: Date;
   description?: string;
+  intervals: string[];
 }
 
 interface CalendarComponentPropsInterface {
@@ -54,8 +55,9 @@ interface DayComponentPropsInterface {
   goToNextDay?: () => void;
   goToPreviousDay?: () => void;
   isMilitary?: boolean;
-  currentEvent?: string[];
-  createEvent?: (e: MouseEvent) => void;
+  currentEvent: string[];
+  createEvent: (e: MouseEvent) => void;
+  saveEvent: (e: EventInterface) => void;
   events: EventInterface[];
 }
 
@@ -64,6 +66,9 @@ interface WeekComponentPropsInterface {
   changeView: (view: string, date?: Date) => void;
   goToNextWeek: () => void;
   goToPreviousWeek: () => void;
+  currentEvent: string[];
+  createEvent: (e: MouseEvent) => void;
+  saveEvent: (e: EventInterface) => void;
   events: EventInterface[];
 }
 
@@ -86,7 +91,7 @@ interface YearComponentPropsInterface {
 
 interface CalendarEventComponentPropsInterface {
   currentEvent: string[];
-  quarter: Date;
+  month: string;
   year: string;
   dayOfWeek: string;
 }

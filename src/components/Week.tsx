@@ -1,9 +1,18 @@
 import * as React from "react";
 import { Navigation, Day } from "./index";
-import { WeekComponentPropsInterface } from "../interfaces";
+import { WeekComponentPropsInterface, EventInterface } from "../interfaces";
 
 function Week(props: WeekComponentPropsInterface) {
-  const { week, changeView, goToNextWeek, goToPreviousWeek } = props;
+  const {
+    week,
+    changeView,
+    goToNextWeek,
+    goToPreviousWeek,
+    currentEvent,
+    createEvent,
+    saveEvent,
+    events
+  } = props;
   const { headers, week: currentWeek } = week;
   const firstDay = currentWeek[0];
   const lastDay = currentWeek[currentWeek.length - 1];
@@ -52,7 +61,16 @@ function Week(props: WeekComponentPropsInterface) {
                   {dayOfWeek}
                 </div>
               </div>
-              <Day day={day} changeView={changeView} />
+              <Day
+                day={day}
+                changeView={changeView}
+                currentEvent={currentEvent}
+                events={events.filter(
+                  (e: EventInterface) => e.start.getDay() === date.getDay()
+                )}
+                createEvent={createEvent}
+                saveEvent={saveEvent}
+              />
             </div>
           );
         })}

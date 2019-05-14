@@ -7,7 +7,7 @@ import { CalendarComponentPropsInterface } from "../interfaces";
 const { useState } = React;
 
 function Calendar(props: CalendarComponentPropsInterface) {
-  const { events } = props;
+  const { events, saveEvent } = props;
   const [currentView, setCurrentView] = useState("day");
   const { currentEvent, createEvent } = useEvent();
   const {
@@ -47,6 +47,7 @@ function Calendar(props: CalendarComponentPropsInterface) {
             goToPreviousDay={goToPreviousDay}
             currentEvent={currentEvent}
             createEvent={createEvent}
+            saveEvent={saveEvent}
             events={getEventsForDay(events)}
           />
         </div>
@@ -58,6 +59,9 @@ function Calendar(props: CalendarComponentPropsInterface) {
             changeView={changeView}
             goToNextWeek={goToNextWeek}
             goToPreviousWeek={goToPreviousWeek}
+            currentEvent={currentEvent}
+            createEvent={createEvent}
+            saveEvent={saveEvent}
             events={getEventsForWeek(events)}
           />
         </div>

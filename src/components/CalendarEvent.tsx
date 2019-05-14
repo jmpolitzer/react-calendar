@@ -1,24 +1,15 @@
 import * as React from "react";
 import { CalendarEventComponentPropsInterface } from "../interfaces";
+import mapIntervalsToDates from "../helpers/mapIntervalsToDates";
 
 function CalendarEvent(props: CalendarEventComponentPropsInterface) {
-  const { currentEvent, quarter, year, dayOfWeek } = props;
+  const { currentEvent, month, year, dayOfWeek } = props;
   const isDescending = currentEvent[0] > currentEvent[1];
-  const getHour = (interval: string) =>
-    interval.length === 3 ? interval.slice(0, 1) : interval.slice(0, 2);
-  const getMinutes = (interval: string) =>
-    interval.length === 3
-      ? interval.slice(1, interval.length)
-      : interval.slice(2, interval.length);
-  const intervalRange = currentEvent.map(
-    (interval: string) =>
-      new Date(
-        parseInt(year, 10),
-        quarter.getMonth(),
-        parseInt(dayOfWeek, 10),
-        parseInt(getHour(interval), 10),
-        parseInt(getMinutes(interval), 10)
-      )
+  const intervalRange = mapIntervalsToDates(
+    currentEvent,
+    year,
+    month,
+    dayOfWeek
   );
 
   return (

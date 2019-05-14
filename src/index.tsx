@@ -2,20 +2,28 @@ import * as React from "react";
 import { render } from "react-dom";
 import { Calendar } from "./components/index";
 
+const { useState } = React;
+
 import "./styles.css";
 
-const events = [
+const dbEvents = [
   {
-    start: new Date(2019, 5, 13, 13, 30),
-    end: new Date(2019, 5, 13, 5, 45),
+    start: new Date(2019, 4, 14, 0, 30),
+    end: new Date(2019, 4, 14, 2, 45),
     description: "A new event!"
   }
 ];
 
 function App() {
+  const [events, setEvents] = useState(dbEvents);
+
+  const saveEvent = (event: any) => {
+    setEvents(events => events.concat(event));
+  };
+
   return (
     <div className="App">
-      <Calendar events={events} />
+      <Calendar events={events} saveEvent={saveEvent} />
     </div>
   );
 }
