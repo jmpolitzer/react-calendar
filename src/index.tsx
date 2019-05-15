@@ -8,8 +8,8 @@ import "./styles.css";
 
 const dbEvents = [
   {
-    start: new Date(2019, 4, 14, 0, 30),
-    end: new Date(2019, 4, 14, 2, 45),
+    start: new Date(2019, 4, 15, 0, 30),
+    end: new Date(2019, 4, 15, 2, 45),
     description: "A new event!"
   }
 ];

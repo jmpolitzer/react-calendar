@@ -43,7 +43,7 @@ function Day(props: DayComponentPropsInterface) {
   const formatEvents = () => {
     return events.map((event: EventInterface) => {
       const { start, end } = event;
-      const intervalCount = (end - start) / 1000 / 60 / 15;
+      const intervalCount = (end - start) / 1000 / 60 / 15 + 1;
       const intervals = [...Array(intervalCount)].map((_, i: number) => {
         const startCopy = new Date(start);
         const minutes = i * 15;
@@ -61,12 +61,13 @@ function Day(props: DayComponentPropsInterface) {
   };
 
   const formatAndSaveEvent = () => {
-    const firstInterval = currentEvent[0];
-    const lastInterval = currentEvent[currentEvent.length - 1];
-    const events =
-      firstInterval < lastInterval ? currentEvent : currentEvent.reverse();
+    const { intervals } = currentEvent;
+    const firstInterval = intervals[0];
+    const lastInterval = intervals[intervals.length - 1];
+    const orderedEvents =
+      firstInterval < lastInterval ? intervals : intervals.reverse();
     const eventDates = mapIntervalsToDates(
-      events,
+      orderedEvents,
       year,
       date.getMonth(),
       dayOfWeek
@@ -118,16 +119,14 @@ function Day(props: DayComponentPropsInterface) {
   };
 
   const getEvents = (quarter: Date) => {
+    const { start, intervals } = currentEvent;
     const formattedQuarter = formatQuarter(quarter);
     const eventRanges = formatEvents().map(
       (event: EventInterface) => event.intervals
     );
-
-    // Figure out what day current event goes on when in week view.
-    console.log(quarter.getDay(), date.getDay());
     const eventsAndCurrentEvent =
-      quarter.getDay() === date.getDay()
-        ? eventRanges.concat([currentEvent])
+      quarter.getDay() === start.getDay()
+        ? eventRanges.concat([intervals])
         : eventRanges;
 
     return eventsAndCurrentEvent.filter(

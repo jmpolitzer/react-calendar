@@ -3,7 +3,10 @@ import * as React from "react";
 const { useState } = React;
 
 function useEvent() {
-  const [currentEvent, setCurrentEvent] = useState([]);
+  const [currentEvent, setCurrentEvent] = useState({
+    start: new Date(),
+    intervals: []
+  });
 
   const getDateAttr = (e: MouseEvent) => {
     const { attributes } = e.target as HTMLElement;
@@ -13,13 +16,13 @@ function useEvent() {
       const hour = date.getHours();
       const minutes = date.getMinutes() === 0 ? "00" : date.getMinutes();
 
-      return `${hour}${minutes}`;
+      return { start: date, interval: `${hour}${minutes}` };
     }
   };
 
   const handleMouseDown = (e: MouseEvent) => {
     const date = getDateAttr(e);
-    date && setCurrentEvent([date]);
+    date && setCurrentEvent({ start: date.start, intervals: [date.interval] });
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
@@ -31,20 +34,26 @@ function useEvent() {
     const date = getDateAttr(e);
 
     date &&
-      setCurrentEvent(quarters => {
-        const lastQuarter = parseInt(quarters[quarters.length - 1], 10);
-        const secondToLastQuarter = parseInt(quarters[quarters.length - 2], 10);
+      setCurrentEvent(event => {
+        const { intervals } = event;
+        const { interval } = date;
+        const lastQuarter = parseInt(intervals[intervals.length - 1], 10);
+        const secondToLastQuarter = parseInt(
+          intervals[intervals.length - 2],
+          10
+        );
         const isGoingReverse =
           (lastQuarter > secondToLastQuarter &&
-            parseInt(date, 10) < lastQuarter) ||
+            parseInt(interval, 10) < lastQuarter) ||
           (lastQuarter < secondToLastQuarter &&
-            parseInt(date, 10) > lastQuarter);
-
-        return quarters.includes(date)
+            parseInt(interval, 10) > lastQuarter);
+        const updatedIntervals = intervals.includes(interval)
           ? isGoingReverse
-            ? quarters.filter(quarter => parseInt(quarter, 10) !== lastQuarter)
-            : quarters
-          : quarters.filter(quarter => quarter !== date).concat(date);
+            ? intervals.filter(quarter => parseInt(quarter, 10) !== lastQuarter)
+            : intervals
+          : intervals.filter(quarter => quarter !== interval).concat(interval);
+
+        return { ...event, intervals: updatedIntervals };
       });
 
     e.preventDefault();
@@ -57,7 +66,6 @@ function useEvent() {
     /*
       TODO:
       1. Display form for event details
-      2. Expose method to save array in external data store 
     */
 
     e.preventDefault();
