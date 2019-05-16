@@ -2,10 +2,9 @@ import * as React from "react";
 import { render } from "react-dom";
 import { Calendar } from "./components/index";
 
-const { useState } = React;
-
 import "./styles.css";
 
+const { useState } = React;
 const dbEvents = [
   {
     start: new Date(2019, 4, 15, 0, 30),

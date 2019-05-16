@@ -23,6 +23,7 @@ import {
   isSameYear
 } from "date-fns";
 import { EventInterface } from "../interfaces";
+
 function useCalendar(startWeekOn?: any) {
   const [activeDate, setActiveDate] = useState(new Date());
 

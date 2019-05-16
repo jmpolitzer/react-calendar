@@ -63,6 +63,11 @@ function useEvent() {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
 
+    setCurrentEvent({
+      start: new Date(),
+      intervals: []
+    });
+
     /*
       TODO:
       1. Display form for event details
