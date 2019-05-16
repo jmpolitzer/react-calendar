@@ -4,7 +4,7 @@ import useEvent from "../hooks/useEvent";
 import { Day, Week, Month, Year } from "./index";
 import { CalendarComponentPropsInterface } from "../interfaces";
 
-const { useState } = React;
+const { useState, useMemo } = React;
 
 function Calendar(props: CalendarComponentPropsInterface) {
   const { events, saveEvent } = props;
@@ -30,6 +30,28 @@ function Calendar(props: CalendarComponentPropsInterface) {
     getEventsForYear
   } = useCalendar();
 
+  const day = useMemo(() => getDay(), [getDay]);
+  const week = useMemo(() => getWeek(), [getWeek]);
+  const month = useMemo(() => getMonth(), [getMonth]);
+  const year = useMemo(() => getYear(), [getYear]);
+
+  const dayEvents = useMemo(() => getEventsForDay(events), [
+    events,
+    getEventsForDay
+  ]);
+  const weekEvents = useMemo(() => getEventsForWeek(events), [
+    events,
+    getEventsForWeek
+  ]);
+  const monthEvents = useMemo(() => getEventsForMonth(events), [
+    events,
+    getEventsForMonth
+  ]);
+  const yearEvents = useMemo(() => getEventsForYear(events), [
+    events,
+    getEventsForYear
+  ]);
+
   const changeView = (view: string, date?: Date) => {
     date && setDate(date);
     setCurrentView(view);
@@ -40,7 +62,7 @@ function Calendar(props: CalendarComponentPropsInterface) {
       {currentView === "day" && (
         <div className="day">
           <Day
-            day={getDay()}
+            day={day}
             changeView={changeView}
             isDayView
             goToNextDay={goToNextDay}
@@ -48,44 +70,44 @@ function Calendar(props: CalendarComponentPropsInterface) {
             currentEvent={currentEvent}
             createEvent={createEvent}
             saveEvent={saveEvent}
-            events={getEventsForDay(events)}
+            events={dayEvents}
           />
         </div>
       )}
       {currentView === "week" && (
         <div className="week">
           <Week
-            week={getWeek()}
+            week={week}
             changeView={changeView}
             goToNextWeek={goToNextWeek}
             goToPreviousWeek={goToPreviousWeek}
             currentEvent={currentEvent}
             createEvent={createEvent}
             saveEvent={saveEvent}
-            events={getEventsForWeek(events)}
+            events={weekEvents}
           />
         </div>
       )}
       {currentView === "month" && (
         <div className="month">
           <Month
-            month={getMonth()}
+            month={month}
             changeView={changeView}
             isMonthView
             goToNextMonth={goToNextMonth}
             goToPreviousMonth={goToPreviousMonth}
-            events={getEventsForMonth(events)}
+            events={monthEvents}
           />
         </div>
       )}
       {currentView === "year" && (
         <div className="year">
           <Year
-            year={getYear()}
+            year={year}
             changeView={changeView}
             goToNextYear={goToNextYear}
             goToPreviousYear={goToPreviousYear}
-            events={getEventsForYear(events)}
+            events={yearEvents}
           />
         </div>
       )}
