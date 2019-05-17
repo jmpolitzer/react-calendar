@@ -154,7 +154,6 @@ function Day(props: DayComponentPropsInterface) {
               {hour.map((quarter: Date, j: number) => {
                 const isHour = j % 4 === 0;
                 const isEvening = getEveningStatus(quarter, isHour);
-
                 return (
                   <div key={j}>
                     {getEvents(quarter).map((event: string[], i: number) => {

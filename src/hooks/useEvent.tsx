@@ -8,6 +8,13 @@ function useEvent() {
     intervals: []
   });
 
+  const isInterval = (e: MouseEvent) => {
+    const { className } = e.target as HTMLElement;
+    const intervalClasses = ["hour", "minutes"];
+
+    return intervalClasses.includes(className);
+  };
+
   const getDateAttr = (e: MouseEvent) => {
     const { attributes } = e.target as HTMLElement;
 
@@ -21,11 +28,14 @@ function useEvent() {
   };
 
   const handleMouseDown = (e: MouseEvent) => {
-    const date = getDateAttr(e);
-    date && setCurrentEvent({ start: date.start, intervals: [date.interval] });
+    if (isInterval(e)) {
+      const date = getDateAttr(e);
+      date &&
+        setCurrentEvent({ start: date.start, intervals: [date.interval] });
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
 
     e.preventDefault();
   };
@@ -67,10 +77,13 @@ function useEvent() {
       start: new Date(),
       intervals: []
     });
+    // console.log(e.target.className)
+    // if (isInterval(e)) {
+    // }
 
     /*
-      TODO:
-      1. Display form for event details
+    TODO:
+    1. Display form for event details
     */
 
     e.preventDefault();

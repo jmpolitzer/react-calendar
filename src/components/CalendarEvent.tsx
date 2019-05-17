@@ -11,9 +11,18 @@ function CalendarEvent(props: CalendarEventComponentPropsInterface) {
     month,
     dayOfWeek
   );
+  const handleResize = (e: MouseEvent) => {
+    const { top, bottom, height } = e.target.getBoundingClientRect();
+    const isClickableTop = e.clientY < top + 10;
+    const isClickableBottom = e.clientY > bottom - 10;
+
+    (isClickableTop || isClickableBottom) &&
+      console.log(e.clientY, top, bottom);
+  };
 
   return (
     <div
+      onMouseDown={e => handleResize(e)}
       className="event"
       style={{
         position: "absolute",
