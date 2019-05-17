@@ -2,8 +2,11 @@ import * as React from "react";
 import { CalendarEventComponentPropsInterface } from "../interfaces";
 import mapIntervalsToDates from "../helpers/mapIntervalsToDates";
 
+const { useState } = React;
+
 function CalendarEvent(props: CalendarEventComponentPropsInterface) {
-  const { currentEvent, month, year, dayOfWeek } = props;
+  const { currentEvent, resizeEvent, month, year, dayOfWeek } = props;
+  const [isResizable, setIsResizable] = useState(false);
   const isDescending = currentEvent[0] > currentEvent[1];
   const intervalRange = mapIntervalsToDates(
     currentEvent,
@@ -11,19 +14,26 @@ function CalendarEvent(props: CalendarEventComponentPropsInterface) {
     month,
     dayOfWeek
   );
-  const handleResize = (e: MouseEvent) => {
-    const { top, bottom, height } = e.target.getBoundingClientRect();
-    const isClickableTop = e.clientY < top + 10;
-    const isClickableBottom = e.clientY > bottom - 10;
 
-    (isClickableTop || isClickableBottom) &&
-      console.log(e.clientY, top, bottom);
+  const checkIsClickable = (e: MouseEvent) => {
+    const { top, bottom } = e.target.parentNode.getBoundingClientRect();
+    const isClickableTop = e.clientY < top + 5;
+    const isClickableBottom = e.clientY > bottom - 5;
+    const isClickable = isClickableTop || isClickableBottom;
+
+    return isClickable;
+  };
+
+  const handleResize = (e: MouseEvent) => {
+    checkIsClickable(e) && resizeEvent(e);
   };
 
   return (
     <div
       onMouseDown={e => handleResize(e)}
-      className="event"
+      onMouseOver={e => setIsResizable(checkIsClickable(e))}
+      onMouseMove={e => setIsResizable(checkIsClickable(e))}
+      className={`${isResizable ? "event" : ""}`}
       style={{
         position: "absolute",
         ...(isDescending && {

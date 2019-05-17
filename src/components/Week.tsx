@@ -8,8 +8,6 @@ function Week(props: WeekComponentPropsInterface) {
     changeView,
     goToNextWeek,
     goToPreviousWeek,
-    currentEvent,
-    createEvent,
     saveEvent,
     events
   } = props;
@@ -64,11 +62,9 @@ function Week(props: WeekComponentPropsInterface) {
               <Day
                 day={day}
                 changeView={changeView}
-                currentEvent={currentEvent}
                 events={events.filter(
                   (e: EventInterface) => e.start.getDay() === date.getDay()
                 )}
-                createEvent={createEvent}
                 saveEvent={saveEvent}
               />
             </div>

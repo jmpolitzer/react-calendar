@@ -1,6 +1,5 @@
 import * as React from "react";
 import useCalendar from "../hooks/useCalendar";
-import useEvent from "../hooks/useEvent";
 import { Day, Week, Month, Year } from "./index";
 import { CalendarComponentPropsInterface } from "../interfaces";
 
@@ -9,7 +8,6 @@ const { useState, useMemo } = React;
 function Calendar(props: CalendarComponentPropsInterface) {
   const { events, saveEvent } = props;
   const [currentView, setCurrentView] = useState("day");
-  const { currentEvent, createEvent } = useEvent();
   const {
     setDate,
     getMonth,
@@ -67,8 +65,6 @@ function Calendar(props: CalendarComponentPropsInterface) {
             isDayView
             goToNextDay={goToNextDay}
             goToPreviousDay={goToPreviousDay}
-            currentEvent={currentEvent}
-            createEvent={createEvent}
             saveEvent={saveEvent}
             events={dayEvents}
           />
@@ -81,8 +77,6 @@ function Calendar(props: CalendarComponentPropsInterface) {
             changeView={changeView}
             goToNextWeek={goToNextWeek}
             goToPreviousWeek={goToPreviousWeek}
-            currentEvent={currentEvent}
-            createEvent={createEvent}
             saveEvent={saveEvent}
             events={weekEvents}
           />

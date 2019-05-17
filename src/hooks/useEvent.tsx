@@ -77,9 +77,6 @@ function useEvent() {
       start: new Date(),
       intervals: []
     });
-    // console.log(e.target.className)
-    // if (isInterval(e)) {
-    // }
 
     /*
     TODO:
@@ -89,8 +86,13 @@ function useEvent() {
     e.preventDefault();
   };
 
+  const resizeEvent = (e: MouseEvent) => {
+    console.log(e);
+  };
+
   return {
     createEvent: handleMouseDown,
+    resizeEvent,
     currentEvent
   };
 }

@@ -111,6 +111,10 @@ button {
   justify-content: space-between;
 }
 
+.event {
+  cursor: ns-resize;
+}
+
 .event-interval {
   background-color: teal;
   height: 45px;

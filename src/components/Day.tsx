@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Navigation, CalendarEvent } from "./index";
+import useEvent from "../hooks/useEvent";
 import { DayComponentPropsInterface, EventInterface } from "../interfaces";
 import mapIntervalsToDates from "../helpers/mapIntervalsToDates";
 
@@ -11,12 +12,11 @@ function Day(props: DayComponentPropsInterface) {
     goToPreviousDay,
     goToNextDay,
     isMilitary = false,
-    currentEvent,
-    createEvent,
     saveEvent,
     events
   } = props;
   const { dayOfWeek, dayString, month, year, day: currentDay, date } = day;
+  const { currentEvent, createEvent, resizeEvent } = useEvent();
 
   const formatTime = (date: Date, index: number) => {
     const militaryHour = date.getHours();
@@ -161,6 +161,7 @@ function Day(props: DayComponentPropsInterface) {
                         <CalendarEvent
                           key={i}
                           currentEvent={event}
+                          resizeEvent={resizeEvent}
                           month={quarter.getMonth()}
                           year={year}
                           dayOfWeek={dayOfWeek}
