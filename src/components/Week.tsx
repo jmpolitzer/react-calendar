@@ -9,6 +9,7 @@ function Week(props: WeekComponentPropsInterface) {
     goToNextWeek,
     goToPreviousWeek,
     saveEvent,
+    modifyEvent,
     events
   } = props;
   const { headers, week: currentWeek } = week;
@@ -66,6 +67,7 @@ function Week(props: WeekComponentPropsInterface) {
                   (e: EventInterface) => e.start.getDay() === date.getDay()
                 )}
                 saveEvent={saveEvent}
+                modifyEvent={modifyEvent}
               />
             </div>
           );

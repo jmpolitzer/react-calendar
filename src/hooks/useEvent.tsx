@@ -5,6 +5,7 @@ const { useState, useEffect } = React;
 function useEvent() {
   const [isResizable, setIsResizable] = useState(false);
   const [currentEvent, setCurrentEvent] = useState({
+    id: "id",
     start: new Date(),
     intervals: []
   });
@@ -27,11 +28,15 @@ function useEvent() {
   };
 
   const isClickable = (e: MouseEvent) => {
-    const { top, bottom } = e.target.parentNode.getBoundingClientRect();
-    const isClickableTop = e.clientY < top + 5;
-    const isClickableBottom = e.clientY > bottom - 5;
+    const parent = e.target.parentNode;
 
-    return isClickableTop || isClickableBottom;
+    if (parent.getBoundingClientRect) {
+      const { bottom } = parent.getBoundingClientRect();
+
+      return e.clientY > bottom - 5;
+    } else {
+      return false;
+    }
   };
 
   const getDateAttr = (e: MouseEvent) => {
@@ -49,8 +54,13 @@ function useEvent() {
   const createEvent = (e: MouseEvent) => {
     if (isInterval(e)) {
       const date = getDateAttr(e);
+
       date &&
-        setCurrentEvent({ start: date.start, intervals: [date.interval] });
+        setCurrentEvent({
+          id: "id",
+          start: date.start,
+          intervals: [date.interval]
+        });
 
       document.addEventListener("mousemove", modifyEvent);
       document.addEventListener("mouseup", resetCurrentEvent);
@@ -99,21 +109,20 @@ function useEvent() {
     document.removeEventListener("mouseup", resetCurrentEvent);
 
     setCurrentEvent({
+      id: "id",
       start: new Date(),
       intervals: []
     });
 
-    /*
-      TODO:
-      1. Display form for event details
-    */
-
     e.preventDefault();
   };
 
-  const resizeEvent = (e: MouseEvent) => {
+  const resizeEvent = (e: MouseEvent, event) => {
     if (isClickable(e)) {
-      console.log(e);
+      setCurrentEvent(event);
+
+      document.addEventListener("mousemove", modifyEvent);
+      document.addEventListener("mouseup", resetCurrentEvent);
     }
   };
 

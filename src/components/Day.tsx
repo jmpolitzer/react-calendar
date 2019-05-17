@@ -13,6 +13,7 @@ function Day(props: DayComponentPropsInterface) {
     goToNextDay,
     isMilitary = false,
     saveEvent,
+    modifyEvent,
     events
   } = props;
   const { dayOfWeek, dayString, month, year, day: currentDay, date } = day;
@@ -61,24 +62,26 @@ function Day(props: DayComponentPropsInterface) {
   };
 
   const formatAndSaveEvent = () => {
-    const { intervals } = currentEvent;
-    const firstInterval = intervals[0];
-    const lastInterval = intervals[intervals.length - 1];
-    const orderedEvents =
-      firstInterval < lastInterval ? intervals : intervals.reverse();
-    const eventDates = mapIntervalsToDates(
-      orderedEvents,
-      year,
-      date.getMonth(),
-      dayOfWeek
-    );
-    const eventToSave = {
-      start: eventDates[0],
-      end: eventDates[eventDates.length - 1],
-      description: "A new event!"
-    };
+    if (currentEvent.intervals.length > 0) {
+      const { intervals } = currentEvent;
+      const firstInterval = intervals[0];
+      const lastInterval = intervals[intervals.length - 1];
+      const orderedEvents =
+        firstInterval < lastInterval ? intervals : intervals.reverse();
+      const eventDates = mapIntervalsToDates(
+        orderedEvents,
+        year,
+        date.getMonth(),
+        dayOfWeek
+      );
+      const eventToSave = {
+        start: eventDates[0],
+        end: eventDates[eventDates.length - 1],
+        description: "A new event!"
+      };
 
-    saveEvent(eventToSave);
+      saveEvent(eventToSave);
+    }
   };
 
   const getDayNavTitle = () => {
@@ -119,18 +122,16 @@ function Day(props: DayComponentPropsInterface) {
   };
 
   const getEvents = (quarter: Date) => {
-    const { start, intervals } = currentEvent;
+    const { start } = currentEvent;
     const formattedQuarter = formatQuarter(quarter);
-    const eventRanges = formatEvents().map(
-      (event: EventInterface) => event.intervals
-    );
+    const formattedEvents = formatEvents();
     const eventsAndCurrentEvent =
       quarter.getDay() === start.getDay()
-        ? eventRanges.concat([intervals])
-        : eventRanges;
+        ? formattedEvents.concat(currentEvent)
+        : formattedEvents;
 
     return eventsAndCurrentEvent.filter(
-      (event: string[]) => event[0] === formattedQuarter
+      (event: EventInterface) => event.intervals[0] === formattedQuarter
     );
   };
 
@@ -156,19 +157,22 @@ function Day(props: DayComponentPropsInterface) {
                 const isEvening = getEveningStatus(quarter, isHour);
                 return (
                   <div key={j}>
-                    {getEvents(quarter).map((event: string[], i: number) => {
-                      return (
-                        <CalendarEvent
-                          key={i}
-                          currentEvent={event}
-                          resizeEvent={resizeEvent}
-                          isResizable={isResizable}
-                          month={quarter.getMonth()}
-                          year={year}
-                          dayOfWeek={dayOfWeek}
-                        />
-                      );
-                    })}
+                    {getEvents(quarter).map(
+                      (event: EventInterface, i: number) => {
+                        return (
+                          <CalendarEvent
+                            key={i}
+                            currentEvent={event}
+                            modifyEvent={modifyEvent}
+                            resizeEvent={resizeEvent}
+                            isResizable={isResizable}
+                            month={quarter.getMonth()}
+                            year={year}
+                            dayOfWeek={dayOfWeek}
+                          />
+                        );
+                      }
+                    )}
                     <div className="quarter-line" />
                     <div
                       className={`${isHour ? "hour" : "minutes"}`}

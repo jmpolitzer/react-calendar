@@ -6,7 +6,7 @@ import { CalendarComponentPropsInterface } from "../interfaces";
 const { useState, useMemo } = React;
 
 function Calendar(props: CalendarComponentPropsInterface) {
-  const { events, saveEvent } = props;
+  const { events, saveEvent, modifyEvent } = props;
   const [currentView, setCurrentView] = useState("day");
   const {
     setDate,
@@ -66,6 +66,7 @@ function Calendar(props: CalendarComponentPropsInterface) {
             goToNextDay={goToNextDay}
             goToPreviousDay={goToPreviousDay}
             saveEvent={saveEvent}
+            modifyEvent={modifyEvent}
             events={dayEvents}
           />
         </div>
@@ -78,6 +79,7 @@ function Calendar(props: CalendarComponentPropsInterface) {
             goToNextWeek={goToNextWeek}
             goToPreviousWeek={goToPreviousWeek}
             saveEvent={saveEvent}
+            modifyEvent={modifyEvent}
             events={weekEvents}
           />
         </div>

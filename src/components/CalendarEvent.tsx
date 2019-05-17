@@ -5,27 +5,25 @@ import mapIntervalsToDates from "../helpers/mapIntervalsToDates";
 function CalendarEvent(props: CalendarEventComponentPropsInterface) {
   const {
     currentEvent,
+    modifyEvent,
     resizeEvent,
     isResizable,
     month,
     year,
     dayOfWeek
   } = props;
-  const isDescending = currentEvent[0] > currentEvent[1];
-  const intervalRange = mapIntervalsToDates(
-    currentEvent,
-    year,
-    month,
-    dayOfWeek
-  );
+  const { intervals } = currentEvent;
+  const isDescending = intervals[0] > intervals[1];
+  const intervalRange = mapIntervalsToDates(intervals, year, month, dayOfWeek);
 
-  const handleResize = (e: MouseEvent) => {
-    resizeEvent(e);
+  const handleMouseDown = (e: MouseEvent) => {
+    isResizable && currentEvent.id && modifyEvent(currentEvent);
+    resizeEvent(e, currentEvent);
   };
 
   return (
     <div
-      onMouseDown={e => handleResize(e)}
+      onMouseDown={e => handleMouseDown(e)}
       className={`${isResizable ? "event" : ""}`}
       style={{
         position: "absolute",
@@ -48,7 +46,7 @@ function CalendarEvent(props: CalendarEventComponentPropsInterface) {
             data-date={interval}
           >
             {isDescending
-              ? i === currentEvent.length - 1 && "Event Interval"
+              ? i === intervals.length - 1 && "Event Interval"
               : i === 0 && "Event Interval!"}
           </div>
         );
