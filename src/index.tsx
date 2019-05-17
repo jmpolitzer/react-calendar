@@ -7,8 +7,8 @@ import "./styles.css";
 const { useState } = React;
 const dbEvents = [
   {
-    start: new Date(2019, 4, 15, 0, 30),
-    end: new Date(2019, 4, 15, 2, 45),
+    start: new Date(2019, 4, 17, 0, 30),
+    end: new Date(2019, 4, 17, 2, 45),
     description: "A new event!"
   }
 ];

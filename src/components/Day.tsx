@@ -16,7 +16,7 @@ function Day(props: DayComponentPropsInterface) {
     events
   } = props;
   const { dayOfWeek, dayString, month, year, day: currentDay, date } = day;
-  const { currentEvent, createEvent, resizeEvent } = useEvent();
+  const { currentEvent, createEvent, resizeEvent, isResizable } = useEvent();
 
   const formatTime = (date: Date, index: number) => {
     const militaryHour = date.getHours();
@@ -162,6 +162,7 @@ function Day(props: DayComponentPropsInterface) {
                           key={i}
                           currentEvent={event}
                           resizeEvent={resizeEvent}
+                          isResizable={isResizable}
                           month={quarter.getMonth()}
                           year={year}
                           dayOfWeek={dayOfWeek}
